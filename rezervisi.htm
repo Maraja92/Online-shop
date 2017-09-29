@@ -1,0 +1,99 @@
+
+<html lang='en'>
+<head>
+  <title>Diplomski rad Marija Jović</title>
+  <meta charset='utf-8' />
+  <link rel='stylesheet' href='css/style.css' />
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 content">
+      <nav class="navbar navbar-default">
+      <div class="joj">
+      <img src="img/instagram.png"><a href="https://www.facebook.com/"></a>
+      <img src="img/fb.png"><a href="https://www.facebook.com/"></a>
+      <img src="img/pinterest.png"><a href="https://www.facebook.com/"></a>
+      <img src="img/google.png"><a href="https://www.facebook.com/"></a>
+      </div>
+      <div class="logo"><img src="img/Boogie22.png"></div>
+      <header>
+      <h1>Boogie</h1>
+      <nav><ul class="nav navbar-nav">
+              
+                <li><a href="home.htm">Početna</a></li>
+                <li><a href="meni.htm">Meni</a></li>
+                <li ><a href="naruci.htm">Naruči online</a></li>
+                <li class="active"><a href="rezervisi.htm">Rezerviši mesto</a></li>
+                <li><a href="subscribe.htm">Pratite nas</a></li>
+            </ul></nav>
+    </header>
+         
+      </nav>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 content">
+
+<h2>Rezervacija mesta (<span data-bind="text: seats().length"></span>)</h2>
+<table>
+    <thead><tr>
+        <th>ime</th><th>obrok</th><th>dodatak</th><th></th>
+    </tr></thead>
+    <tbody data-bind="foreach: seats">
+        <tr>
+            <td><input data-bind="value: name" /></td>
+            <td><select data-bind="options: $root.availableMeals, value: meal, optionsText: 'mealName'"></select></td>
+            <td data-bind="text: formattedPrice"></td>
+            <td><a href="#" data-bind="click: $root.removeSeat">ukloni</a></td>
+        </tr>    
+    </tbody>
+</table>
+<button data-bind="click: addSeat, enable: seats().length < 5">Rezerviši još mesta</button>
+<h3 data-bind="visible: totalSurcharge() > 0">
+    ukupno: dinara  <span data-bind="text: totalSurcharge().toFixed(2)"></span>
+</h3>
+<script type='text/javascript' src='knockout-2.1.0.js'></script>
+<script type='text/javascript'>
+// klasa koja prikazuje cenu obroka   
+function SeatReservation(name, initialMeal) {
+    var self = this;
+    self.name = name;
+    self.meal = ko.observable(initialMeal);
+    self.formattedPrice = ko.computed(function() {
+        var price = self.meal().price;
+        return price ? "dinara  " + price.toFixed(2) : "  None";        
+    });    
+}
+// Sveobuhvatni viewmodel uz pocetno stanje
+function ReservationsViewModel() {
+    var self = this;
+// Nepromenljivi proizvodni katalog - moze doci sa servera
+    self.availableMeals = [
+        { mealName: "Standard (burger)", price: 100 },
+        { mealName: "Premium (burito)", price: 340.95 },
+        { mealName: "Ultimate (celi obrok)", price: 2900 }
+    ];    
+// Promenljivi podaci
+    self.seats = ko.observableArray([
+        new SeatReservation(" ", self.availableMeals[0]),
+        new SeatReservation(" ", self.availableMeals[0])
+    ]);
+self.name = ko.observable("");
+// Preracunati podaci
+    self.totalSurcharge = ko.computed(function() {
+       var total = 0;
+       for (var i = 0; i < self.seats().length; i++)
+           total += self.seats()[i].meal().price;
+       return total;
+    });    
+ // Operacije
+    self.addSeat = function() {
+        self.seats.push(new SeatReservation("", self.availableMeals[0]));
+    }
+    self.removeSeat = function(seat) { self.seats.remove(seat) }
+}
+ko.applyBindings(new ReservationsViewModel());
+</script>

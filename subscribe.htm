@@ -1,0 +1,97 @@
+
+<html lang='en'>
+<head>
+  <title>Diplomski rad Marija Jović</title>
+  <meta charset='utf-8' />
+  <link rel='stylesheet' type="text/css"  href='css/style.css' />
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 content">
+      <nav class="navbar navbar-default">
+      <div class="joj">
+      <img src="img/instagram.png"><a href="https://www.facebook.com/"></a>
+      <img src="img/fb.png"><a href="https://www.facebook.com/"></a>
+      <img src="img/pinterest.png"><a href="https://www.facebook.com/"></a>
+      <img src="img/google.png"><a href="https://www.facebook.com/"></a>
+      </div>
+      <div class="logo"><img src="img/Boogie22.png"></div>
+      <header>
+      <h1>Boogie</h1>
+      <nav><ul class="nav navbar-nav">
+              
+                <li><a href="home.htm">Početna</a></li>
+                <li><a href="meni.htm">Meni</a></li>
+                <li><a href="naruci.htm">Naruči online</a></li>
+                <li><a href="rezervisi.htm">Rezerviši mesto</a></li>
+                <li class="active"><a href="subscribe.htm">Pratite nas</a></li>
+            </ul></nav>
+    </header>
+         
+      </nav>
+    </div>
+<div class="container">
+  <div class="row" >
+  <div class="center">
+
+  </br>
+  <h2>Unesite vaše podatke</h2>
+
+  <form action="#" method="post">
+ 
+    <p class="forma">
+    	Ime i prezime: <input data-bind='value: firstName' placeholder="" size="35"/>
+    	<span data-bind='visible: details'>Vaše ime</span>
+    	</p>  
+    <p class="forma">E-mail:       <input data-bind='value: eMail' placeholder="" size="35"/></p>
+      <p class="forma" >Telefon:    <input name="phone" data-bind='value: primaryPhone, hasfocus: phoneHasFocus' placeholder="" size="35"/>
+    </p>
+   <p><button data-bind='click: saveUserData'>Pošalji</button></p>
+    <p>
+      <button data-bind='click: displayName'>
+        Prikaži podatke
+      </button>
+    </p>
+	    <p>Obavestite me o specijalnim ponudama: <input data-bind='checked: annoyMe' type='checkbox' /></p>
+   <div data-bind='visible: annoyMe'>
+      <select data-bind='options: annoyTimes, value: selectedTime'></select>
+    </div>
+    </div>
+    </div>
+ </div>
+  </div>
+</form>
+  <script type='text/javascript' src='knockout-2.1.0.js'></script>
+  <script type='text/javascript'>
+      function PersonViewModel() {
+          var self = this;
+          this.firstName = ko.observable("");
+          this.eMail = ko.observable("");
+		  this.details = ko.observable(false);
+		  this.annoyMe = ko.observable(true);
+		  this.primaryPhone = ko.observable("");
+		  this.phoneHasFocus = ko.observable(true);
+      this.annoyTimes = ko.observableArray([
+        'Ujutru',
+        'Popodne',
+        'Uveče'
+      ]);
+     this.selectedTime = ko.observable('Popodne');
+      this.saveUserData = function (model, event) {
+              alert(model.firstName() + " podaci su poslati!");
+              if (event.ctrlKey) {
+                  alert("Iz nekog razloga držao je kontrolni taster!");
+              }
+          };
+           this.displayName = function() {
+        	alert(this.firstName()+ " " + this.eMail()+ " "+this.primaryPhone());
+      	};
+      }
+    ko.applyBindings(new PersonViewModel());
+  </script>
+</body>
+</html>

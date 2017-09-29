@@ -1,0 +1,160 @@
+
+<html lang='en'>
+<head>
+  <title>Diplomski rad Marija Jović</title>
+  <meta charset='utf-8' />
+   <link rel='stylesheet' type="text/css"  href='css/style.css' />
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+   
+    
+</head>
+<body>
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 content">
+      <nav class="navbar navbar-default">
+      <div class="joj">
+      <img src="img/instagram.png"><a href="https://www.facebook.com/"></a>
+      <img src="img/fb.png"><a href="https://www.facebook.com/"></a>
+      <img src="img/pinterest.png"><a href="https://www.facebook.com/"></a>
+      <img src="img/google.png"><a href="https://www.facebook.com/"></a>
+      </div>
+      <div class="logo"><img src="img/Boogie22.png"></div>
+      <header>
+      <h1>Boogie</h1>
+      <nav><ul class="nav navbar-nav">
+              
+                <li><a href="home.htm">Početna</a></li>
+                <li><a href="meni.htm">Meni</a></li>
+                <li class="active"><a href="naruci.htm">Naruči online</a></li>
+                <li><a href="rezervisi.htm">Rezerviši mesto</a></li>
+                <li><a href="subscribe.htm">Pratite nas</a></li>
+            </ul></nav>
+    </header>
+         
+      </nav>
+    </div>
+              
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 content">
+  <h2> Besplatna dostava! </h2>
+  
+    <p><span data-bind="text:fullName"></span>shopping korpa</p>
+  <hr>
+  <div class="featured">
+    <p data-bind="with: featuredProduct">
+        Da li želiš: <strong data-bind="text: name"></strong>? <br />
+        Uskoro samo za: <strong data-bind="text: price"></strong> dinara!
+    </p>
+  </div>
+  <hr>
+<table>
+    <thead><tr>
+      <th>Porudzbina </th>
+        <th>Proizvod</th>
+      <th>Cena</th>
+        <th>Dodatno</th>
+        <th>Akcija</th>
+    </tr></thead>
+    <tbody data-bind='foreach: shoppingCart'>
+      <tr>
+        <td data-bind='text: $index'></td>
+        <td data-bind='text: name'></td>
+        <td data-bind='text: price'></td>
+        <td>
+            <ul data-bind="foreach: tags">
+                <li>
+                    <span data-bind="text: $parent.name"></span> - <span data-bind="text: $data"></span>
+                </li>
+            </ul>
+        </td>
+        <td data-bind="if: discount() > 0, css:{supersaver: discount() > 0.15}" style="color: red">
+            Uštedeli ste <span data-bind="text: formattedDiscount" ></span>!!!
+        </td>
+          <td>
+            <button data-bind='click: $root.removeProduct'>Ukloni</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <button data-bind='click:addProduct'>Dodaj napitak</button>
+    <button data-bind='click:debugItems'>Potvrdi</button>
+    <button data-bind="click:checkout">Odjavi se</button>
+  <div class="container">
+  <div class="row">
+  <div >
+  </br>
+  </div>
+  </div>
+ </div>
+  </form>
+<script type='text/javascript' src='knockout-2.1.0.js'></script>
+    <script type='text/javascript'>
+        function Product(name, price, tags, discount) {
+            this.name = ko.observable(name);
+            this.price = ko.observable(price);
+
+            tags = typeof (tags) !== "undefined" ? tags : [];
+            this.tags = ko.observableArray(tags);
+
+            discount = typeof (discount) !== "undefined" ? discount : 0;
+            //console.log(discount);
+            this.discount = ko.observable(discount);
+            this.formattedDiscount = ko.computed(function () {
+                return (this.discount() * 100) + "%";
+            }, this);
+        }
+
+        function PersonViewModel()
+        {
+            var self = this;
+
+            this.firstName = ko.observable(" Jova");
+            this.lastName = ko.observable("Jovic ");
+            this.checkout = function () {
+                alert("Odjavljuje se");
+            };
+            this.fullName = ko.computed(function(){
+                return this.firstName() + " " + this.lastName();
+            }, this);
+
+            this.shoppingCart = ko.observableArray([
+                new Product("Burito", 340.99, null, 0.2),
+                new Product("Burger", 200, null, 0.1),
+                new Product("Celi obrok", 1590, ["Burito", "Sok"])
+            ]);
+
+            this.addProduct = function () {
+                this.shoppingCart.push(new Product("Sok", 109));
+            };
+
+            this.removeProduct = function (product) {
+                self.shoppingCart.destroy(product);
+                alert("Proizvod je uklonjen");
+            };
+
+            this.debugItems = function () {
+                var message = "";
+                var nativeArray = self.shoppingCart();
+                for (var i = 0; i < nativeArray.length; i++) {
+                    message += nativeArray[i].name() + "\n"; 
+                }
+                alert(message);
+            };
+
+              this.displayName = function() {
+              alert(this.firstName()+ " " + this.lastName()+ " "+this.primaryPhone());
+             };
+
+       
+
+            var featured = new Product("Pasta sa plodovima mora", 399);
+            this.featuredProduct = ko.observable(featured);
+        };
+
+        var vm = new PersonViewModel();
+        ko.applyBindings(vm);
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
